@@ -1,6 +1,19 @@
 package il.ac.hit.pooly;
 
+/**
+ * The Main class demonstrates the usage of ThreadsPool and Task classes.
+ * It creates a thread pool, submits tasks with different priorities,
+ * demonstrates task pausing and resuming, and shuts down the pool after
+ * all tasks are complete.
+ */
 public class Main {
+
+    /**
+     * The main method starts the execution of the program.
+     * It initializes logging, creates a thread pool with 3 threads,
+     * submits tasks with different priorities, demonstrates task pausing
+     * and resuming, and shuts down the pool after all tasks are complete.
+     */
     public static void main(String[] args) {
 
         LoggerConfig.logger.info("Main method starting...");
