@@ -18,22 +18,27 @@ The pooly library is a multithreading library developed in Java, designed to man
 
         @Override
         public void perform() {
-            // Task implementation
         }
 
         @Override
         public void setPriority(int level) {
-            this.priority = level;
         }
 
         @Override
         public int getPriority() {
-            return this.priority;
+        }
+        
+        @Override
+        public int pause() {
+        }
+        
+        @Override
+        public int resume() {
         }
     }
     ```
 
-2. Use the `ThreadsPool` to manage tasks:
+2. Use the `ThreadsPool` to manage tasks, for example:
     ```java
     public class Main {
         public static void main(String[] args) {
@@ -53,6 +58,8 @@ The pooly library is a multithreading library developed in Java, designed to man
 - `void perform()`: Executes the task.
 - `void setPriority(int level)`: Sets the task priority.
 - `int getPriority()`: Gets the task priority.
+- `void pause()`: Pause the task.
+- `void resume()`: Resume the task.
 
 ### `ThreadsPool` Class
 
@@ -62,7 +69,11 @@ The pooly library is a multithreading library developed in Java, designed to man
 
 ## Testing
 
-Unit tests are provided in the `test` directory. To run the tests, use your IDE's built-in test runner or execute the following command:
+Unit tests are provided in the `Tests` directory. To run the tests, use your IDE's built-in test runner.
 
-```bash
-./gradlew test
+## Features
+
+- `TaskException`: A custom exception class used for handling specific errors or exceptional conditions that tasks may encounter during execution.
+
+- `LoggerConfig`: A utility class to configure logging settings and provide informative logs throughout the execution of tasks within the ThreadsPool.
+
