@@ -3,14 +3,13 @@ package il.ac.hit.pooly;
 import java.util.logging.Level;
 
 /**
- * Represents a task that implements the Task interface. This task can be performed with a specified priority
- * and supports pausing and resuming functionality.
+ * Represents a task that implements the Task interface.
+ * This task can be performed with a specified priority and supports pausing and resuming functionality.
  */
 public class MyTask implements Task {
 
     private int priority;
-    private volatile boolean paused = false;
-    private volatile boolean executed = false;
+    private volatile boolean paused = false; // 'volatile' is used to indicate that a variable's value will be modified by different threads.
 
     /**
      * Performs the task logic. This method should handle any exceptions thrown during task execution.
@@ -19,7 +18,8 @@ public class MyTask implements Task {
      */
     @Override
     public void perform() throws TaskException {
-        LoggerConfig.logger.log(Level.INFO, "Task with priority " + priority + " started.");
+        LoggerConfig.logger.info("Task with priority " + priority + " started");
+        System.out.println(AnsiColors.YELLOW + "Task with priority " + priority + " started" + AnsiColors.RESET);
 
         while (!Thread.currentThread().isInterrupted()) {
             synchronized (this) {
@@ -34,17 +34,14 @@ public class MyTask implements Task {
             }
 
             // Task logic goes here
-            LoggerConfig.logger.log(Level.INFO, "Performing task with priority " + priority);
+            LoggerConfig.logger.info("Performing task with priority " + priority);
             System.out.println("Performing task with priority " + priority);
-
-            if (someConditionFails()) {
-                throw new TaskException("Task failed due to some condition");
-            }
 
             break; // Exit after performing the task once
         }
 
-        LoggerConfig.logger.log(Level.INFO, "Task with priority " + priority + " completed.");
+        LoggerConfig.logger.info("Task with priority " + priority + " completed");
+        System.out.println(AnsiColors.BLUE + "Task with priority " + priority + " completed!" + AnsiColors.RESET);
     }
 
     /**
@@ -73,7 +70,7 @@ public class MyTask implements Task {
     @Override
     public synchronized void pause() {
         this.paused = true;
-        LoggerConfig.logger.log(Level.INFO, "Task with priority " + priority + " is paused");
+        LoggerConfig.logger.info("Task with priority " + priority + " is paused");
     }
 
     /**
@@ -84,7 +81,7 @@ public class MyTask implements Task {
     public synchronized void resume() {
         this.paused = false;
         notify();
-        LoggerConfig.logger.log(Level.INFO, "Task with priority " + priority + " is resumed");
+        LoggerConfig.logger.info("Task with priority " + priority + " is resumed");
     }
 
     /**
@@ -94,24 +91,5 @@ public class MyTask implements Task {
      */
     public boolean isPaused() {
         return paused;
-    }
-
-    /**
-     * Checks if the task has been executed.
-     *
-     * @return true if the task has been executed, false otherwise.
-     */
-    public boolean isExecuted() {
-        return executed;
-    }
-
-    /**
-     * Simulates a condition check that may cause the task to fail.
-     *
-     * @return true if the condition fails, false otherwise.
-     */
-    private boolean someConditionFails() {
-        // Simulate a condition that may cause task failure
-        return false; // Modify to simulate failure conditions
     }
 }

@@ -4,10 +4,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
+
 
 /**
- * A thread pool that manages tasks of type 'Task' with varying priorities.
+ * A thread pool that manages tasks of type Task with varying priorities.
  * Tasks are executed in order of their priority, with higher priority tasks executed first.
  */
 public class ThreadsPool extends LoggerConfig {
@@ -34,14 +34,14 @@ public class ThreadsPool extends LoggerConfig {
             executorService.execute(() -> {
                 while (!executorService.isShutdown()) {
                     try {
-                        Task task = taskQueue.take(); // Retrieve task with highest priority
+                        Task task = taskQueue.take(); // Retrieve task with the highest priority
                         task.perform(); // Perform the task
                     } catch (TaskException e) {
-                        logger.log(Level.SEVERE, "Task execution failed: " + e.getMessage());
+                        logger.warning("Task execution failed: " + e.getMessage());
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     } catch (Exception e) {
-                        logger.log(Level.SEVERE, "Unexpected error: " + e.getMessage());
+                        logger.warning("Unexpected error: " + e.getMessage());
                     }
                 }
             });
@@ -65,19 +65,19 @@ public class ThreadsPool extends LoggerConfig {
      */
     public void shutdown() {
         try {
-            logger.log(Level.INFO, "Shutting down thread pool...");
+            logger.info("Shutting down thread pool...");
             executorService.shutdown(); // Initiate shutdown
 
             // Wait for up to 60 seconds for tasks to complete
             if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-                logger.log(Level.WARNING, "Forcing shutdown of thread pool due to timeout.");
+                logger.warning("Forcing shutdown of thread pool due to timeout.");
                 executorService.shutdownNow(); // Forceful shutdown if tasks do not complete
             }
             else {
-                logger.log(Level.INFO, "Thread pool shutdown completed.");
+                logger.info("Thread pool shutdown completed.");
             }
         } catch (InterruptedException e) {
-            logger.log(Level.SEVERE, "Thread pool shutdown interrupted. Forcing immediate shutdown.");
+            logger.warning("Thread pool shutdown interrupted. Forcing immediate shutdown.");
             executorService.shutdownNow(); // Forceful shutdown on interruption
             Thread.currentThread().interrupt();
         }

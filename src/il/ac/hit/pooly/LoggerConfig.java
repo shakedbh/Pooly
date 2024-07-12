@@ -33,7 +33,7 @@ public class LoggerConfig {
 
         // Create a custom formatter for the log messages
         fileHandler.setFormatter(new SimpleFormatter() {
-            private static final String format = "[%1$tF %1$tT] [%2$s] [%3$s] -> %4$s: %5$s%6$s%n";
+            private static final String format = "[%1$tF %1$tT] - [%2$s] - [%3$s] --- %4$s: %5$s%6$s%n";
 
             @Override
             public synchronized String format(java.util.logging.LogRecord lr) {
@@ -49,6 +49,13 @@ public class LoggerConfig {
 
         // Add file handler to logger
         logger.addHandler(fileHandler);
-        logger.setLevel(Level.INFO); // Set default logging level
+        logger.setLevel(Level.ALL);
+
+        // Remove all handlers from the root logger to prevent console logging
+        Logger rootLogger = Logger.getLogger("");
+        for (var handler : rootLogger.getHandlers()) {
+            rootLogger.removeHandler(handler);
+        }
+        rootLogger.setLevel(Level.OFF); // Disable logging to console
     }
 }
