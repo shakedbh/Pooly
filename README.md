@@ -9,6 +9,11 @@ The pooly library is a multithreading library developed in Java, designed to man
 1. Ensure JDK 22 is installed.
 2. Clone the repository and open it in your IDE.
 
+## Architecture
+
+![Pooly Architecture](architecture/architecture.drawio.png)
+
+
 ## Usage
 
 1. Create a `Task` implementation:
